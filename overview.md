@@ -1,57 +1,49 @@
 # Overview
 
-
-
 ## Main Features
 
 1. **Import a module**: `queue = import("/core/std/queue")` \(you can also import from external sources like GitHub\).
-2. **Primitive types**: `int`, `float`, `char`, `byte`, `bool`, `string`, `type`, `nothing`. 
+2. **Primitive types**: `int`, `float`, `char`, `string`,`byte`, `bool`, `error`, `type`, `nothing`. 
 3. **Bindings**: `my_var:int = 19` \(type is optional, everything is immutable\).
-4. **Sequence**: `my_array = [1, 2, 3]` \(type of `my_array` is `[int]`, sequence of integers\).
-5. **HashMap**: `my_map = ["A":1, "B":2, "C":3]` \(type of `my_map` is `[string:int]`, hash map of string to integer\)
+4. **Sequence**: `my_array = [1, 2, 3]` \(type of `my_array` is `[int]` which means a sequence of integers\).
+5. **HashMap**: `my_map = ["A":1, "B":2, "C":3]` \(type of `my_map` is `[string:int]`, which is a map of string to integer\)
 6. **Named type**: `MyInt = int` \(Defines a new type `MyInt` with same binary representation as `int`\).
 7. **Type alias**: `IntType : int` \(A different name for the same type\).
-8. **Struct type**: `Point = struct(x: int, y:int, data: float)` \(Like C `struct`\).
+8. **Struct type**: `Point = struct{x: int, y:int, data: float}` \(Like C `struct`\).
 9. **Struct literal**: `location = Point{x:10, y:20, data:1.19}`.
 10. **Union type**: `MaybeInt = int | nothing` \(Can store either of two types, note that this is a named type\).
 11. **Function**: `calculate = fn(x:int, y:int -> float) { x/y }` \(Functions are all lambdas, the last expression in the body is return value\).
-12. **Concurrency**: `my_task := processData(x,y,z)` \(Start a new micro-thread and evaluate an expression in parallel\).
-13. **Generics**: `ValueKeeper = fn(T: type -> type) { struct{data: T} }` \(A function that returns a type\)
-14. **Generics**: `push = fn(x: T, stack: Stack(T), T: type -> Stack(T)) { ... }`
-15. **Enum**: `DayOfWeek = enum [saturday, sunday, monday, tuesday, wednesday, thursday, friday]`
-16. **Errors**: `result = validateData(a,b,c)@{makeError(InvalidArgument)}`
+12. **Concurrency**: `my_data := processData(x,y,z)` \(Start a new micro-thread and evaluate an expression in parallel\).
+13. **Generic Types**: `ValueKeeper = fn(T: type -> type) { struct{data: T} }` \(Generic types are represented using functions that returns a type\)
+14. **Generic Functions**: `push = fn(x: T, stack: Stack(T), T: type -> Stack(T)) { ... }`
+15. **Enum**: `Weekdays = enum [monday, tuesday, wednesday, thursday, friday]`
+16. **Errors**: `result = validateData(a,b,c)@{makeError(InvalidArgument)}`\(If call to validateData returns an error, then evaluate the expression inside brackets and return the result immediately\).
 
-## Symbols
-
-
-
-
+##  Symbols
 
 1. `#`   Comment
-2. `.`   Access struct members
-3. `()`  Function declaration and call
-4. `{}`  Code block, multiple selections from module namespace, error check, struct declaration and literals
-5. `[]`  Sequence and hashMap
-6. `|`   Union data type 
-7. `->`  Function declaration
-8. `//`  Nothing-check operator
-9. `:`   Type declaration \(binding, struct field and function inputs\), type alias, struct literal
-10. `=`   Binding declaration, named type
-11. `_`   Place-holder \(lambda creator and assignment\)
-12. `::`  Function call composition
-13. `@`   Error check
-14. `?`   If operator
-15. `&`   Type inference for struct literals
+2. `.`   Access struct members \(`customer.name`\)
+3. `()` Function declaration and call \(`process(customer)`\)
+4. `{}` Code block, multiple selections from module namespace, error check, struct declaration and literals
+5. `[]` Sequence and hashMap \(`data=map["CA"]`\)
+6. `|` Union data type \(`x:int|float|string`\)
+7. `->` Function declaration \(`process = fn(...->...)`\)
+8. `//`  Nothing-check operator \(`result=a//b` evaluates to a if it is not `nothing`,else b\)
+9. `:`   Type declaration \(binding, struct field and function inputs\), type alias, struct literal \(`x:int`\)
+10. `=`   Binding declaration, named type \(`x=12`\)
+11. `_`   Place-holder \(lambda creator and assignment\) \(`partial = process(customer,_,_)`
+12. `::`  Function call composition \(`result = id :: findCustomer :: printCustomer`\)
+13. `@`   Error check \(`data = process@`\)
+14. `?`   If operator \(`x=data==10 ? "A"`  if data is 10, then x will be "A" otherwise `nothing`\)
+15. `&`   Type inference for struct literals \(When type can be inferred from context: `&{x:0,y:20}`\)
 16. `:=`  Parallel execution
-17. `..`  Access inside module
+17. `..`  Access inside module \(`data = module1..func1(1,2,3)`\)
 
 ## Reserved Keywords
 
-**Primitive data types**: `int`, `float`, `char`, `byte`, `bool`, `string`, `nothing`, `type`
+**Primitive data types**: `int`, `float`, `char`, `byte`, `bool`, `string`, `nothing`, `type`,`error`
 
-**Core data types**: `error`
-
-**Operators**: `and`, `or`, `not`
+**Logical Operators**: `and`, `or`, `not`
 
 **Data type identifiers**: `fn`, `struct`, `enum`
 
@@ -63,13 +55,11 @@
 2. You must put each statement on a separate line. Newline is the statement separator.
 3. Naming: `SomeDataType`, `someFunction`, `some_data_binding`, `some_module_alias`.
 4. If a function returns a type \(generic types\) it should be named like a type.
-5. If a binding is a reference to a function, it should be named like that function.
+5. If a binding is a reference to a function, it should be named like a function.
 6. You can use `0x` prefix for hexadecimal numbers and `0b` for binary.
 7. You can use `_` as digit separator in number literals.
 
 ## Operators
-
-
 
 Operators are mostly similar to C language:
 
