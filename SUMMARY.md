@@ -2,6 +2,7 @@
 
 * [Introduction](README.md)
 * [Overview](overview.md)
+* [Type System](type-system.md)
 * [Types](untitled.md)
 * [Bindings](untitled-1.md)
 * [Functions](functions-1.md)
