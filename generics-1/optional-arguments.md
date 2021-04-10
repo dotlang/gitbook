@@ -40,19 +40,10 @@ In the above example, we define a generic type `ToString` which is a function. T
 
 Generic functions like `ToString` are called contracts because they define a behavior based on one or more types. Note that you are not limited to single typed contracts. Functions that are explicitly defined as that type are "implementations of that contract".
 
-You can also do a "catch all" implementation which means if we need an implementatin of   the contract for type T which does not exist, you can use this catch-all function. Below is an example of catch-all implementation for `ToString`:
-
-```elixir
-genericToString: ToString = fn(T: type, data: T -> string) ...
-```
-
-So, if you call `myFunction` in above example with a string variable, because there is no implementation of `ToString` for string type, then `genericToString` will be passed in place of `stringer` argument. Note that still, caller has the option to explicitly pass a function instead.
-
 Below is another example of contracts:
 
 ```elixir
 Hasher = fn(T: type -> type) { fn(data: T, T: type -> int) }
-genericHash: Hasher = fn(T: type, data: T -> int) { ... }
 intHasher: Hasher(int) = fn...
 stringHasher: Hasher(string) = fn...
 ...

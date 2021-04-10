@@ -6,7 +6,7 @@ When defining a function, you can use `:>` instead of `:` between argument name 
 2. If type is a number \(int, float, char, byte\), zero is the default value.
 3. There are other default values for generic types which are explained in Generics section.
 
-Note that, if caller decides not to pass values for optional function arguments and they are located at the end of argument list, they can be ignored \(Example B below\)
+Note that, if the caller decides not to pass values for optional function arguments and they are located at the end of argument list, they can be ignored \(Example B below\)
 
 ```elixir
 #A
@@ -17,15 +17,12 @@ result = process(,100)
 result = process(0,100)
 
 #B
-process = fn(x:>int|nothing, y:int, z:> int -> string) { ... }
+process = fn(y:int, x:>int|nothing, z:> int -> string) { ... }
 
-#below are the same
-result = process(100, 20,)
 result = process(100, 20)
 
 #below are also the same
-result = process(,10)
-result = process(nothing, 10)
-result = process(nothing, 10, 0)
+result = process(10, nothing, 0)
+result = process(10)
 ```
 
