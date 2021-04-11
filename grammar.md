@@ -1,5 +1,7 @@
 # Grammar
 
+### Grammar Notation
+
 ```text
 Result  ::= component1 ( component2 | component3 ) | 
             component4 | [component5] component6
@@ -14,14 +16,12 @@ Result  ::= component1 ( component2 | component3 ) |
 - {A}+  : Repeating A one or more times, separated with comma
 ```
 
-
-
 ### Top-level
 
 A module is a series of types \(named or alias\) or bindings \(value or function\).
 
 ```text
-Module                  ::= ( TypeDecl | BindingDecl )*
+Module                   ::= ( TypeDecl | BindingDecl )*
 ```
 
 ### Naming basics
@@ -46,11 +46,11 @@ TypeLiteral             ::= PrimitiveType | StructType | UnionType |
 PrimitiveType           ::= 'int' | 'float' | 'string' | 'char' | 
                             'byte' | 'bool' | 'nothing'
 StructType              ::= 'struct' '{' {StructField}* '}'
-StructField             ::= { Identifier ':' Type }
-UnionType               ::= (Type '|' Type) | (Type '|' UnionType)
-FnType                  ::= 'fn' '(' { Type }* '->' { Type }* ')'
-SeqType                 ::= '[' Type ']'
-MapType                 ::= '[' Type ':' Type ']'
+StructField             ::= { Identifier ':' TypeLiteral }
+UnionType               ::= (TypeLiteral '|' TypeLiteral) | (TypeLiteral '|' UnionType)
+FnType                  ::= 'fn' '(' { TypeLiteral }* '->' { TypeLiteral }* ')'
+SeqType                 ::= '[' TypeLiteral ']'
+MapType                 ::= '[' TypeLiteral ':' TypeLiteral ']'
 EnumType                ::= 'enum' SeqLiteral
 ```
 

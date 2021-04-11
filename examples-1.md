@@ -1,7 +1,5 @@
 # Examples
 
-
-
 ## Patterns
 
 Because a lot of non-essential features are removed from the language and core, the user has freedom to implement them however they want. In this section we provide some of possible solutions for these types of challenges.
@@ -55,7 +53,7 @@ result = (validator//NopFunc3)(x, y, z)
 
 ### Pattern matching
 
-Many languages have `switch, case` or `match` keyword to do pattern matching. in dotLang we use hashmaps as a simple alternative.
+Many languages have `switch, case` or `match` keyword to do pattern matching. in dotLang we use maps as a simple alternative.
 
 ```perl
 int_result = 
@@ -65,8 +63,6 @@ int_result =
 ][exp]()
 ```
 
-## Examples
-
 ### Empty application
 
 ```perl
@@ -75,9 +71,7 @@ main = fn( -> int ) { 0 }
 
 This is a function, called `main` which has no input and always returns `0` \(very similar to C/C++ except `main` function has no input\).
 
-You can simplify `main` to:
-
-`main = fn{ 0 }`
+You can simplify `main` to: `main = fn{ 0 }`
 
 ### Hello world
 
@@ -94,19 +88,24 @@ main = fn( -> int)
 We want to write a function which accepts a string like `"2+4-3"` and returns the result \(`3`\).
 
 ```perl
-NormalExpression = struct (op: char, left: Expression, right: Expression)
+NormalExpression = struct {
+    op: char, 
+    left: Expression, 
+    right: Expression
+}
+
 Expression = int|NormalExpression
 
 eval = fn(input: string -> float) 
 {
-    #assume we already have parse function
+    #assume we already have the parse function
     exp = parse(input)
     innerEval(exp)
 }
 
 innerEval = fn(exp: Expression -> float) 
 {
-    int_val, normal_exp = exp
+    int_val = int|nothing(exp)
     int_val // fn{
         #now we are sure that exp is of type NormalExpression
         y = unwrap(normal_exp)
@@ -142,7 +141,7 @@ quickSort = fn(list:[int], low: int, high: int -> [int])
 A function which accepts a list of numbers and returns sum of numbers.
 
 ```perl
-sum = (data: [int] -> int)
+sum = fn(data: [int] -> int)
 {
     calc = (index: int, sum: int -> int)
     {
