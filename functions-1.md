@@ -4,17 +4,15 @@
 
 Functions \(or lambdas\) are a type of binding which can accept a set of inputs and gives an output.
 
-For example `fn(int,int -> int)` is a function type \(which accepts two integer numbers and gives an integer number\) and `fn(x:int, y:int -> int) { x+y }` is a function literal.
-
-For generics \(types and functions\) see Advanced section.
+For example `fn(int,int -> int)` defines a function type \(which accepts two integer numbers and gives an integer number\) and `fn(x:int, y:int -> int) { x+y }` is a function literal which given two numbers, returns their sum.
 
 ### Declaration
 
 1. `functionName = fn(name1: type1, name2: type2... -> OutputType1, OutputTyp2, ...) { code block }`
-2. Function names are camelCased.
-3. Functions contain a set of bindings and the last expression in the code block determines function output.
-4. If calling a function that returns multiple bindings, you can use `_` to ignore one of them.
-5. There is no function overloading. Functions should have unique names in their context.
+2. Function names must be camelCased.
+3. Functions contain a set of bindings and the last expression in the code block determines function output \(except for errors which can be returned early using at operator\).
+4. If calling a function that returns multiple bindings, you can use `_` to ignore some of them.
+5. There is no function overloading. Functions should have unique names in their container module.
 6. You can alias a function by defining another binding pointing to it \(example A\). 
 7. If a function has no input, you can can eliminate input/output type declaration part \(Example B\). In this case, compiler will infer output type.
 8. If a function is being called with literals \(compile time known values\), compiler will try to evaluate it during compilation \(e.g. generics\). 
@@ -25,7 +23,7 @@ For generics \(types and functions\) see Advanced section.
 
 **Examples**
 
-```perl
+```objectivec
 myFunc = fn(x:int, y:int -> int) { 6+y+x }
 
 tester = fn(x:int -> int, string) {x+1, "a"}
@@ -33,7 +31,8 @@ int1, str1 = tester(100)
 int1, _ = tester(100)
 _, str1 = tester(100)
 
-log = fn(s: string -> nothing) { print(s) } #this function returns nothing, pun not intended
+#this function returns nothing, pun not intended
+log = fn(s: string -> nothing) { print(s) } 
 
 process2 = fn(pt: Point -> int,int) { pt.x, pt.y } #this function returns a struct
 
@@ -73,32 +72,34 @@ student :: filter(isGoodStudent, _) :: map(createNewStudent, _) :: calculateAver
 average3Integers(get3numbers())
 ```
 
-## 
-
 ## Lambdas
 
 1. All functions are lambdas.
 2. Functions are closure. So they have access to bindings in parent contexts \(Module or parent function\).
-3. You can use `_` to define a lambda based on an existing function. Just make a normal call and replace the lambda inputs with `_` \(Example A\).
+3. You can use `_` to create a lambda based on an existing function. Just make a normal call and replace the lambda inputs with `_` \(Example A\).
 4. If lambda is assigned to a variable, it can invoke itself from the inside \(Example B\). This can be used to implement recursive calls.
 
 **Examples**
 
-```perl
-rr = fn(nothing -> int) { x + y } #here x and y are captures from parent function/struct
+```objectivec
+#here x and y are captures from parent function/struct
+rr = fn(nothing -> int) { x + y } 
 
-test = fn(x:int -> PlusFunc) { fn(y:int -> int) { y + x } } #this function returns a lambda
+#this function returns a lambda
+test = fn(x:int -> PlusFunc) { fn(y:int -> int) { y + x } } 
 
-fn(x:int -> int) { x+1} (10) #you can invoke a lambda at the point of declaration
+#you can invoke a lambda at the point of declaration
+fn(x:int -> int) { x+1} (10) 
+
 #A
-lambda1 = process(10, _, _) #defining a lambda based on existing function
+#defining a lambda based on existing function
+lambda1 = process(10, _, _) 
+
 #B
 ff = fn(x:int -> int) { ff(x+1) }
 
 
 ```
-
-
 
 ## Optional Arguments
 
@@ -108,15 +109,15 @@ When defining a function, you can use `:>` instead of `:` between argument name 
 2. If type is a number \(int, float, char, byte\), zero is the default value.
 3. There are other default values for generic types which are explained in Generics section.
 
-Note that, if the caller decides not to pass values for optional function arguments and they are located at the end of argument list, they can be ignored \(Example B below\)
+Note that optional arguments should be placed at the end of argument list.
 
 ```elixir
 #A
-process = fn(x:>int, y:int -> string) { ... }
+process = fn(x:int, y:>int -> string) { ... }
 
 #below are the same
-result = process(,100)
-result = process(0,100)
+result = process(100)
+result = process(100, 0)
 
 #B
 process = fn(y:int, x:>int|nothing, z:> int -> string) { ... }
@@ -129,15 +130,13 @@ result = process(10)
 
 ```
 
-
-
 ## Function Call Resolution
 
-1. We use a static dispatch for function calls. 
+1. We use a static dispatch for function calls. So the target function in a function call is determined at compile time.
 2. Also because you cannot have two functions with the same name, it is easier to find what happens with a function call.
-3. If `MyInt = int`, you cannot call a function which needs an `int` with a `MyInt` binding.
-4. Fucntion resolution is done similar to type name resolution. 
-5. Parameter types must be "identical/compatible" to function argument types, or else there will be a compiler error. 
+3. If `MyInt = int`, you cannot call a function which needs an `int` with a `MyInt` binding. Because as mentioned before, these two are completely different types.
+4. Function resolution is done similar to type name resolution. 
+5. Parameter types must be "identical, exchangeable or compatible" to function argument types, or else there will be a compiler error. 
 6. For example if function argument type is `int | nothing` and parameter is an `int` it is a valid function call \(But not the other way around\).
-7. When you need a function of type `fn(T->U)` any function that can accept T \(or more\) and returns U \(or less\) works fine.
+7. When you need a function of type `fn(T->U)` any function that can accept T \(or more, like `T|Y`\) and returns U \(or less\) works fine.
 

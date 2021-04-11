@@ -1,7 +1,5 @@
 # Modules
 
-
-
 1. Modules are source code files. 
 2. You can import a module into current module and use their declarations. This can only be done at module level. 
 3. You can import modules from local file-system, GitHub or any other external source which the compiler supports.
@@ -57,6 +55,4 @@ Set, process, my_data = imported_module..{SetType, processFunc, my_data}
 result = processData(T..{a, b, c}) #this is WRONG! 
 
 ```
-
-
 

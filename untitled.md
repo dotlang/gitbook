@@ -1,7 +1,5 @@
 # Types
 
-
-
 ## Basic Types
 
 **Syntax**: `int, float, byte, char, string, bool, nothing`
@@ -29,15 +27,15 @@ bool_val = true
 str1 = "Hello world!"
 str2 = "Hello" + "World!"
 n: nothing = nothing
-byte_val: byte = 119 #note that it is optional to mention type of a binding after its name
-```
 
-### 
+#note that it is optional to mention type of a binding after its name
+byte_val: byte = 119 
+```
 
 ## Sequence
 
 1. Sequence is similar to array in other languages. It represents a fixed-size block of memory with elements of the same type, `T`, and is shows with `[T]` notation. 
-2. You can initialize a sequence with a sequence literal \(First example\).
+2. You can initialise a sequence with a sequence literal \(First example\).
 3. You refer to elements inside sequence using `x[i]` notation where `i` is index number. 
 4. `[]` represents an empty sequence.
 5. Referring to an index outside sequence will throw a runtime error.
@@ -51,16 +49,11 @@ x = [1, 2, 3, 4]
 #a 2D matrix of integer numbers
 x: [[int]] = [ [1, 2], [3, 4], [5, 6] ] 
 
-#merging multiple sequences
-x = [1, 2]+[3, 4]+[5, 6] 
-
 int_var = x[10]
 
 #this is definition of string type
 string = [char]
 ```
-
-
 
 ## Map
 
@@ -68,7 +61,7 @@ string = [char]
 2. You can use `[KeyType:ValueType]` to define a map type. 
 3. When reading from a map, you will get runtime error if value does not exist in the map.
 4. An empty map can be denoted using `[:]` notation.
-5. Core defines built-in functions for maps for common operations: `slice, map, reduce, filter, anyMatch, allMatch, ...`
+5. Core defines built-in functions for maps for common operations: `slice, map, reduce, filter, hasKey, anyMatch, allMatch, ...`
 
 **Examples**
 
@@ -76,8 +69,6 @@ string = [char]
 pop = ["A":1, "B":2, "C":3]
 data = pop["A"]
 ```
-
-
 
 ## Enum
 
@@ -104,8 +95,6 @@ false=0
 bool = enum [true, false]
 ```
 
-
-
 ## Union
 
 1. Bindings of union type, can store any of multiple pre-defined types.
@@ -124,7 +113,7 @@ my_int = int(int_or_float) #this will fail if input binding does not have an int
 maybe_int = int|nothing(int_or_float) #if binding has a float, you will get a nothing as a result of this cast
 ```
 
-## Strut
+## Struct
 
 1. A struct, similar to C, represents a set of related named types. 
 2. To create a binding based on a struct, you should use a struct literal \(e.g. `Type{field1:value1, field2:value2, ...}`.
@@ -134,9 +123,9 @@ maybe_int = int|nothing(int_or_float) #if binding has a float, you will get a no
 
 **Examples**
 
-```perl
+```objectivec
 #defining a struct type
-Point = struct {x:int, y:int}
+Point = struct {x:int,y:int}
 
 #create a binding of type Point, defined above
 point2 = Point{x:100, y:200}
@@ -154,8 +143,6 @@ third_point = Point{point1, z: 10, delta: 9}
 #B
 switchOnValue(my_number, &{value: 10, handler: AAA}, &{12, BBB}, &{13, CCC})
 ```
-
-
 
 ## 
 
